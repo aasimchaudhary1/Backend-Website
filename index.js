@@ -3,24 +3,27 @@
 * Main app entry point
 */
 
-
-
 const express = require('express');
 const app = express();
-const port = 3001;
+
+// ✅ IMPORTANT: use dynamic port for Render
+const PORT = process.env.PORT || 3001;
 
 const session = require('express-session');
-var bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
+const path = require("path");
+
+// ================= MIDDLEWARE =================
 
 // ✅ Body parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
+// ✅ Static files (CSS, images, JS)
+app.use(express.static("public"));
+
 // ✅ View engine
 app.set('view engine', 'ejs');
-
-// ✅ Static files
-app.use(express.static(__dirname + '/public'));
 
 // ✅ Session
 app.use(session({
@@ -30,17 +33,23 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-// ✅ SQLite setup
+// ================= DATABASE =================
+
+// ✅ SQLite setup (safe path for Render)
 const sqlite3 = require('sqlite3').verbose();
-global.db = new sqlite3.Database('./database.db', function(err){
+const dbPath = path.join(__dirname, "database.db");
+
+global.db = new sqlite3.Database(dbPath, function(err){
     if(err){
-        console.error(err);
+        console.error("Database error:", err);
         process.exit(1);
     } else {
         console.log("Database connected");
         global.db.run("PRAGMA foreign_keys=ON");
     }
 });
+
+// ================= GLOBAL DATA =================
 
 // ✅ Middleware for site name + description
 app.use((req, res, next) => {
@@ -56,13 +65,12 @@ app.use((req, res, next) => {
     });
 });
 
+// ================= ROUTES =================
+
 // ✅ Main page
 app.get('/', (req, res) => {
     res.render('main-page');
 });
-
-
-// ================= ROUTES =================
 
 // ✅ Organiser routes
 const organisersRoutes = require('./routes/organiser');
@@ -72,10 +80,9 @@ app.use('/', organisersRoutes);
 const attendeeRoutes = require('./routes/attendees');
 app.use('/', attendeeRoutes);
 
-
 // ================= START SERVER =================
 
-// ✅ IMPORTANT: start server LAST
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+// ✅ Start server LAST
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
 });
