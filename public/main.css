@@ -1,0 +1,954 @@
+/* Define styles */
+/*header*/
+body
+{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: linear-gradient(to right, #bce8ed, #d9f3f6,#acecf2, #d9f3f6,#60abb9);
+}
+.header
+{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to right,#93d1d8,#346b73, #61a9ac, #1a5c64, #c0f2f8);    
+    padding: 0.5em 1em;
+    height: 100px;
+    position: relative;
+}
+.header h1
+{
+ 
+    margin: 0;
+    color: white;
+    font-size: 2.5rem;
+    font-family: 'Great Vibes',cursive;
+    white-space: nowrap;
+    z-index: 1;
+    padding-right: 450px;
+}
+.topbar
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:0 40px;
+    margin:20px 0;
+    height: 80px;
+  
+}
+.welcome-message
+{
+    margin-top: 20px;
+    margin-left: 30px;
+    font-size: 2.5rem;
+    color: white;
+    font-family: 'Great Vibes',cursive;
+    -webkit-text-stroke: 1px black;
+    text-shadow: 0 0 5px #ffff,0 0 10px #ffff,0 0 15px #fff;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+.createeventbutton img
+{
+    height: 150px;
+    cursor: pointer;
+}
+.createeventbutton img:hover
+{
+ transform: scale(1.05);
+}
+@keyframes glow {
+    from{
+        text-shadow: 0 0 10px #fff,0 0 15px #fff;
+    }
+    to{
+        text-shadow: 0 0 15px #fff,0 0 20px #fff,0 0 30px #fff;
+    }
+}
+.logo
+{
+    width:200px;
+    height: auto;
+   
+}
+.heading
+{
+    animation: fadeIn 2s ease-in-out; 
+    text-align: center;
+}
+.tagline
+{
+    font-size: 1.2em;
+    color: black;
+    text-align: center;
+}
+.cardcontainer
+{
+    display: flex;
+    justify-content: center;
+    gap:2em;
+    margin-top: 2.5em;
+    flex-wrap: wrap;
+}
+.card{
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    padding: 2em;
+    width: 300px;
+    min-height: 320px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+.card:hover
+{
+    transform: translateY(-10px);
+}
+.buttons
+{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1.5em;
+}
+.cardbutton-organiserlogin,
+.cardbutton-attendeelogin,
+.cardbutton-organiserregister,
+.cardbutton-attendeeregister
+{
+    background-color: #1a5c64;
+    color: white;
+    padding: 0.6em 1.2em;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+.cardbutton-organiserlogin:hover,
+.cardbutton-organiserregister:hover,
+.cardbutton-attendeelogin:hover,
+.cardbutton-attendeeregister:hover
+{
+    background-color: rgb(95, 158, 158) ;
+    color: black;
+}
+.footer
+{
+    margin-top:-3.5em;
+    text-align: center;
+}
+.footerimage
+{
+    max-width: 25%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+.organiserimage
+{
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    margin: -2.5em auto -2.5em auto;
+    display: block;
+}
+.attendeeimage
+{
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    margin: -2.5em auto -2.5em auto;
+    display: block;
+}
+.popup-overlay
+{
+    display: none;
+    position: fixed;
+    top:0; 
+    left:0;
+    right:0;
+    bottom:0;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.popup 
+{
+    position: relative;
+    background: white;
+    padding: 2.5em 3em;
+    border-radius: 12px;
+    text-align: center;
+    min-width: 400px;
+    max-width: 500px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    gap:1.2em;
+}
+.popup input[type="email"],
+.popup input[type="password"],
+.popup input[type="text"]
+{
+    width: 90%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+.close
+{
+    position: absolute;
+    top:10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+.loginbutton,.registerbutton
+{
+    margin-top: 1em;
+    padding:10px 20px;
+    background-color: #1a5c64;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+.loginbutton:hover,.registerbutton:hover
+{
+    background-color: #60abb9;
+}
+.dashboard-top
+{
+ display: grid;
+    grid-template-columns: 440px 1fr;
+    grid-template-rows: auto auto;
+    gap:40px 60px;
+    padding: 40px 20px;
+
+}
+.site-card
+{
+    grid-column: 1;
+    grid-row: 1;
+    background-color: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.5);
+    width: 420px;
+    font-family: 'Segoe UI',sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.site-card-header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.site-card h3
+{
+    font-size: 14px;
+    font-weight: 600;
+    margin: 4px 0 2px 0;
+    color: #666;
+
+}
+.site-card h2
+{
+    font-size: 24px;
+    font-weight: 800;
+    color: #111;
+    margin: 2px 0 20px 0;
+}
+.site-card .description
+{
+    font-size: 16px;
+    color: #777;
+   margin-top: 10px;
+}
+.site-card .updated
+{
+    font-size: 14px;
+    color: #777;
+    margin-top: 10px;
+}
+.customize-img-link img
+{
+    height: 150px;
+    width: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.customize-img-link img:hover
+{
+    transform: scale(1.05);
+}
+.settings-form
+{
+    max-width: 600px;
+    margin: 120px auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+label
+{
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+input[type="text"],
+textarea
+{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+textarea
+{
+    min-height: 100px;
+    resize: vertical;
+}
+button
+{
+    background-color: #1a5c64;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button:hover
+{
+    background-color: rgb(95, 158, 158) ;
+}
+a{
+    display: inline-block;
+    margin-top: 20px;
+    border-radius: 4px;
+    color: black;
+    text-decoration: none;
+}
+a:hover
+{
+    color: #3f7177;
+}
+.publishedevent
+{
+    grid-row: 2;
+    grid-column: 1;
+    background: white;
+    padding:20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    width: 1600px;
+    height: 300px;
+    overflow-y: scroll;
+}
+.events
+{
+ justify-content: center;
+    margin-top: 60px;
+    color:#777;
+}
+
+.draft {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    background-color: white;
+    padding: 24px;
+    border-radius: 20px;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.5);
+    width: 1100px;
+    height: 210px;
+    flex-direction: column;
+    overflow-y: auto;
+}
+.container
+{
+    max-width: 900px;
+    margin: 60px auto;
+    background: white;
+    padding:30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+.creationdate
+{
+    font-size: 17px;
+    color: #666;
+    margin-bottom: 20px;
+}
+.tickets
+{
+    display: flex;
+    gap:2rem;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+}
+.ticketsbox
+{
+    flex: 1;
+}
+.ticketsbox h3
+{
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #222;
+}
+.ticketsbox label
+{
+    display: block;
+    margin-top: 16px;
+    font-weight: 600;
+    color: #706d6d;
+}
+.ticketsbox input[type="number"],input[type="text"]
+{
+    width:100%;
+    padding:10px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border:1px solid #ccc ;
+    box-sizing: border-box;
+    background-color: white;
+}
+.actions
+{
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+input[type=date]
+{
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+}
+.actions a,.actions button
+{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 16px;
+    min-width: 150px;
+    height: 50px;
+    box-sizing: border-box;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+.actions a
+{
+    background-color: #726d6d;
+    color: white;
+    margin-top: -0.5px;
+}
+.actions button
+{
+    background-color: #1a5c64;
+    color: white;
+}
+.actions a:hover
+{
+    background-color: #bdb9b9;
+    color: black;
+}
+.actions button:hover
+{
+    background-color: #5cadb6;
+    color: black;
+}
+.draftevents table
+{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+.draftevents th,.draftevents td
+{
+    padding: 1em;
+    text-align: left;
+    border-bottom: 1px solid #989595;
+    vertical-align: middle;
+}
+.draftevents td:last-child
+{
+    white-space: nowrap;
+    vertical-align: center;
+}
+.draftevents th
+{
+    background-color: #6dc5bb;
+    font-weight: bold;
+    color: #0a0a0a;
+    border-color: #0a0a0a;
+}
+.draftevents td small
+{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #777;
+    display: block;
+    margin-top: 0.5rem;
+    margin-bottom: -1rem;
+}
+.draftevents td a
+{
+ display: inline-flex;
+ align-items: center;
+ gap: 6px;
+ padding: 6px 12px;
+ border-radius: 8px;
+ font-weight: 500;
+ font-size: 0.95rem;
+ text-decoration: none;
+ margin-right: 0.5rem;
+ margin-top: -5px;
+ 
+}
+
+.btn
+{
+    display: inline-flex;
+    align-items: center;
+    gap:6px;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease;
+}
+.btn:hover
+{
+    transform: scale(1.05);
+}
+.eventdetails
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 250px;
+}
+.eventtitle
+{
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+    color: rgb(21, 20, 20);
+}
+.eventdescription
+{
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.4;
+    word-break: break-word;
+    white-space: normal;
+}
+.publishedevents table
+{
+    width:100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    min-width: 1500px;
+}
+.publishedevents th
+{
+    background-color: #6dc5bb;
+    color: #0a0a0a;
+    font-weight: bold;
+    padding: 16px 12px;
+    text-align: left;
+    font-size: 1rem;
+    border-bottom: 2px solid #333;
+}
+.publishedevents td
+{
+    padding: 14px 12px;
+    border-bottom: 1px solid #ccc;
+    vertical-align: top;
+    font-size: 0.95rem;
+}
+.publishedevents td small
+{
+    display: block;
+    color: #777;
+    margin-top: 4px;
+}
+.publishedevents td:last-child
+{
+    white-space: nowrap;
+}
+.publishedevents td a
+{
+    color: black;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-right: 5px;
+    transition: color 0.2s ease;
+}
+td:last-child
+{
+    padding-right: 12px;
+}
+.publishedevents td a:hover
+{
+    color: #1a5c64;
+}
+.btn.editbutton
+{
+    background-color: #bef5ee;
+    color: rgb(10, 5, 5);
+    border: 1px solid black;
+    font-weight: bold;
+}
+.btn.editbutton:hover
+{
+    color:#05695b;
+}
+.btn.publishbutton
+{
+    background-color: #b1fac0;
+    color: rgb(19, 11, 11);
+    border: 1px solid black;
+    font-weight: bold;
+    
+}
+.btn.publishbutton:hover
+{
+    color: #2e8b3f;
+}
+.btn.deletebutton
+{
+    background-color: #f6b5b5;
+    color: #120607;
+    font-weight: bold;
+    border: 1px solid black;
+}
+.btn.deletebutton:hover
+{
+    color:#f41d2f;
+}
+.btn.sharebutton
+{
+    background-color: #b5e8f6;
+    color: #120607;
+    font-weight: bold;
+    border: 1px solid black;
+}
+.publishedeventsactions
+{
+    display: flex;
+    gap: 3px;
+    flex-wrap: wrap;
+    margin-top: -15px;
+}
+.attendeetopbar
+{
+    color: #284f4f;
+    margin-left: 10px;
+}
+
+.tablecontainer
+{
+    overflow-x:auto;
+    max-width: 100%;
+}
+.noevents
+{
+    text-align: center;
+    padding: 60px 0;
+    font-size: 1.2rem;
+    color: #555;
+}
+.eventcontainers
+{
+    background-color: rgba(213,250,245,0.5);
+    border: 2px solid black;
+    padding: 10rem;
+    padding-bottom: 250px;
+    border-radius: 20px;
+    margin: 2rem auto;
+    width: 80%;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    overflow-y: scroll;
+}
+.headingsection
+{
+    color: #284f4f;
+    text-align: start;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    margin-top: -140px;
+    margin-left: -130px;
+    
+}
+.eventgrid
+{
+   display: grid; 
+   grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+    gap:6.5rem;
+    padding: 1.5rem;
+    margin-top: -1rem;
+    justify-items: start;
+    margin-left: -150px;
+  
+}
+.eventcard
+{
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    width: 150%;
+    max-width: 360px;
+    padding: 25px;
+    text-decoration: none;
+    color:#111;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease;
+ 
+}
+.eventcard:hover
+{
+    transform:translateY(-5px);
+}
+.eventheader
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.eventheader h3
+{
+    margin:0;
+}
+.publisheddate
+{
+    background-color: #e6f4ea;
+    color: #2e7a7d;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+}
+.eventdescription{
+    margin:1px 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+.ticketinfo
+{
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
+.ticketinfo div
+{
+    text-align: center;
+}
+.ticketinfo p
+{
+    margin:1rem 0;
+    font-weight: bold;
+}
+.pricecount,.concessioncount
+{
+    font-size: 0.8rem;
+    color: #070606;;
+    background-color: #c0f8f8;
+    border-radius: 5px;
+    border: 1px solid  #080f0f;
+    padding: 7px;
+    
+}
+.headerlink
+{
+    margin-left: auto;
+}
+.headerlink a.mainlink
+{
+    color:#045a59;
+    padding: 10px 12px;
+    text-decoration: none;
+    background-color: white;
+    border-radius: 15px;
+    font-size: 1.5rem;
+    transition: background-color 0.3s ;
+    margin-bottom: 15px;
+}
+.headerlink a.mainlink:hover
+{
+    background-color: #045a59;
+    color: #f2eded;
+}
+.eventcontainer
+{
+    max-width: 800px;
+    margin: 1em auto;
+    padding: 1em 3em;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10 20px rgba(0,0,0,0.5);
+    font-family:'Segoe UI',sans-serif ;
+}
+.eventcontainer h2
+{
+    font-size: 1.8em;
+    margin-bottom: 0.2em;
+}
+.published
+{
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 1.5em;
+}
+.eventcontainer h4
+{
+    font-weight: 600;
+    margin-bottom: 0.3em;
+}
+.ticketinfo
+{
+    display: flex;
+    justify-content: center;
+    gap:2em;
+    flex-wrap: wrap;
+    margin: 2em 0;
+    text-align: center;
+}
+.ticketbox
+{
+    width: 300px;
+    padding: 1.5em;
+    border-radius: 12px;
+    background-color: #dafaff;
+    border: 1px solid #51b5b6;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  
+}
+.ticketbox h5
+{
+    margin-bottom: 0.5em;
+    font-weight: bold;
+    margin-top: 1em;
+}
+.price
+{
+    font-size: 1.3em;
+    margin: 0.2em 0;
+}
+.availability
+{
+    font-size: 0.85em;
+    color: #666;
+}
+.eventdescription p
+{
+    font-size: 1em;
+    line-height: 1.6;
+}
+.bookingform
+{
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+.bookingform input[type="text"],.bookingform input[type="email"],
+.bookingform input[type="number"]
+{
+    width:100%;
+    padding:0.7em;
+    margin-bottom: 1em;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    
+}
+.bookingform label
+{
+   
+    font-weight: 600;
+   
+}
+.ticketselect
+{
+    display: flex;
+    gap:15em;
+    justify-content: center;
+    margin:1.5em 0;
+    flex-wrap: wrap;
+}
+.ticketselect > div
+{
+    display: flex;
+
+    flex-direction: column;
+    width: 250px;
+   
+}
+.formfooter
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -20px;
+    padding: 0 20px;
+    flex-wrap: wrap;
+}
+.formfooter button
+{
+    margin-top: -10px;
+}
+.back-link
+{
+    font-size: 1.1rem;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left : 15px;
+}
+
+.totalprice
+{
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #000;
+
+}
+
+.sectionheading
+{
+    font-size: 1.5rem;
+    margin: 5px 0 10px 0;
+    color: #1a5c64;
+    font-weight: bold;
+    text-align: left;
+    border-bottom: 2px solid #1a5c64;
+    padding-bottom: 5px;
+}

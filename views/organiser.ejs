@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--meta tag for responsiveness-->
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--link to css file-->
+        <link rel="stylesheet"  type="text/css" href="/main.css" />
+        <!--link to include icons-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Organiser Dashboard</title>
+</head>
+<body>
+    <!--Page header-->
+    <header class="header">
+        <!--site name heading-->
+        <h1><%=siteName%></h1>
+        <!--header heading-->
+        <h1>Organiser Home Page</h1>
+        <!--navigation link to main page-->
+        <nav class="headerlink">
+            <a href="/" class="mainlink">Main Page</a>
+        </nav>
+    </header>
+
+    <!--Top bar showing organiser name and create new event button-->
+    <div class="topbar">
+        <div class="welcome-message">Welcome, <%=name%></div>
+        <div class="createeventbutton">
+            <a href="/organiser/create-event" class="eventbutton-img-link" >
+                <img src="/Images/create_button.png" alt="Create-Event" />
+            </a>
+        </div>
+    </div>
+
+    <!--site setting card-->
+    <div class="dashboard-top">
+        <div class="site-card">
+            <div class="site-card-header">
+                <div>
+                    <!--site details-->
+                    <h3>Site Name</h3>
+                    <h2><%=siteName%></h2>
+
+                    <h3>Description</h3>
+                    <p class="description"><%=siteDescription%></p>
+
+                    <h3>Last Updated</h3>
+                    <p class="updated"><%= updatedAt %></p>
+                </div>
+
+                <!--link that direct to site setting page-->
+                <a href="/organiser/site-settings" class="customize-img-link">
+                    <img src="/Images/cutomize_button.png" alt="Customize" />
+                </a>
+            </div>
+        </div>
+       
+        <!--draft event section-->
+        <div class="draft">
+            <div class="sectionheading">Draft Events</div>
+            <div class="draftevents">
+                <% if(!draftEvents || draftEvents.length==0)
+                { %> 
+                    <!--message if there are no events-->
+                    <div class="noevents">
+                        <p>No Draft Events</p>
+                    </div>
+                <% } else { %>
+                    <!--table to display draft events -->
+                    <div class="tablecontainer">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Created</th>
+                                    <th>Last Modified</th>
+                                    <th>Full Price Tickets</th>
+                                    <th>Concession Tickets</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% draftEvents.forEach(event => { %>
+                                    <tr>
+                                        <td>#<%= event.id %></td>
+                                        <td class="eventdetails">
+                                            <div class="eventtitle"><%=event.title%></div>
+                                        <div class="eventdescription"><%=event.description%></div>
+                                        </td>
+                                        <td><%= new Date(event.creationdate).toLocaleString() %></td>
+                                        <td><%= new Date(event.modifieddate).toLocaleString() %></td>
+                                        <td>
+                                            Quantity: <%= event.price_count%><br/>
+                                            Price: $<%=event.price_amount%><br/>
+                                        </td>
+                                        <td>
+                                            Quantity: <%=event.concession_count%><br/>
+                                            Price: $<%=event.concession_amount%>
+                                        </td>
+                                        <td>
+                                            <a href="/organiser/edit-event/<%= event.id %>" class="btn editbutton"><i class="fas fa-pen-to-square"></i><span>Edit</span></a> 
+                                            <a href="/organiser/publish/<%= event.id%>" class="btn publishbutton"><i class="fas fa-check"></i><span>Publish</span></a>  
+                                            <a href="/organiser/delete/<%= event.id%>" class="btn deletebutton"><i class="fas fa-trash"></i><span>Delete</span></a>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        <!--published events section-->
+        <div class="publishedevent">
+            <h3>Published Events</h3>
+            <div class="publishedevents">
+                <% if(!publishedEvents || publishedEvents.length==0)
+                { %>
+                    <!--Messge if no event published-->
+                    <div class="noevents">
+                        <p>No events published</p>
+                    </div>
+                   
+                <%} else { %>
+                    <table>
+                        <thead>
+                            <tr>
+                                <!-- table to Display published events details -->
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Created</th>
+                                <th>Published</th>
+                                <th>Full Price Tickets</th>
+                                <th>Concession Tickets</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% publishedEvents.forEach(event=>{ %>
+                                <tr>
+                                    <td>#<%= event.id %></td>
+                                    <td>
+                                        <strong><%=event.title %></strong><br/>
+                                        <small><%=event.description%></small>
+                                    </td>
+                                    <td><%= new Date(event.creationdate).toLocaleString() %></td>
+                                    <td><%= new Date(event.publisheddate).toLocaleString() %></td>
+                                    <td>Qty: <%=event.price_count %><br/> Price: $ <%= event.price_amount%></td>
+                                    <td>Qty: <%=event.concession_count %><br/> Price: $ <%= event.concession_amount%></td>
+                                    <td>
+                                        <div class="publishedeventsactions">
+                                            <!--A link to direct attende page-->
+                                            <a href="/event/<%= event.id %>?shared=true" target="_blank" class="btn sharebutton"><i class="fas fa-share-alt"></i> Share Link</a>
+                                            <!--delete  the published event-->
+                                            <a href="/organiser/delete/<%=event.id %>" class="btn deletebutton"><i class="fas fa-trash"></i>Delete</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <%})%>
+                        </tbody>
+                    </table>
+                <%}%>
+            </div>
+        </div>
+    </div>  
+</body>
+</html>

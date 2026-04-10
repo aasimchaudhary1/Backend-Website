@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--meta tag for responsive designing-->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!--link to css file-->
+        <link rel="stylesheet"  type="text/css" href="/main.css" />
+        <title>Main Page</title>
+    </head>
+    <body>
+        <!--Header section with site name-->
+        <header class="header">
+            <h1><%=siteName%></h1>
+        </header>
+
+        <!--Introduction sectio with event name and event description-->
+        <section class="intro">
+            <h1 class="heading">Welcome to <%=siteName%></h1>
+            <p class="tagline"><%=siteDescription%></p>
+        </section>
+
+        <!--container canting attendee and organiser login and registration buttons-->
+        <div class="cardcontainer">
+            <!--Organiser card-->
+            <div class="card">
+                <h2>Organiser</h2>
+                <p>Manage and publish events</p>
+                <img src="/Images/organiser-icon.png" alt="organiser-icon" class="organiserimage">
+                <div class="buttons">
+                    <a href="#" class="cardbutton-organiserlogin">Login</a>
+                    <a href="#" class="cardbutton-organiserregister">Register</a>
+               </div>
+            </div>
+            <!--Attendee card-->
+            <div class="card">
+                <h2>Attendee</h2>
+                <p>View published events</p>
+                <img src="/Images/attendeeicon.png" alt="attendee-icon" class="attendeeimage">
+                <div class="buttons">
+                <a href="#" class="cardbutton-attendeelogin">Login</a>
+                <a href="#" class="cardbutton-attendeeregister">Register</a>
+                </div>
+            </div>
+        </div>
+
+        <!--Organiser login popup form-->
+        <div class="popup-overlay" id="login">
+            <div class="popup">
+                <span class="close" id="closeloginpopup">&times;</span>
+                <h2>Organiser Login</h2>
+                <form id="loginform" action="/organiser/login" method="POST">
+                    <input type="email" name="email" placeholder="Enter your Email" required/>
+                    <br /><br />
+                    <input type="password" name="password" placeholder="Enter your Password" required/>
+                    <label style="display:flex; justify-content:flex-start; align-items:center; margin: 1em 0 0.5em 0.5em;">
+                        <input type="checkbox" name="remember" style="margin-left: 8px;"/>Remember Me
+                    </label>
+                    <button type="submit" class="loginbutton">Login</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Organiser registration popup form -->
+        <div class="popup-overlay" id="organiser-register">
+            <div class="popup">
+                <span class="close" id="closeorganiserregisterpopup">&times;</span>
+                <h2>Organiser Registration</h2>
+                <form id="organiser-registrationform">
+                    <input type="text" name="name" placeholder="Enter Your Full Name" required/><br/><br/>
+                    <input type="email" name="email" placeholder="Enter your Email" required/>
+                    <br /><br />
+                    <input type="password" name="password" placeholder="Enter your Password" required/>
+                    <button type="submit" class="registerbutton">Register</button>
+                </form>
+            </div>
+        </div>
+        
+        <!--Attendee login popup form-->
+        <div class="popup-overlay" id="attendee-login">
+            <div class="popup">
+                <span class="close" id="closeattendeeloginpopup">&times;</span>
+                <h2>Attendee Login</h2>
+                <form id="attendee-loginform">
+                    <input type="email" name="email" placeholder="Enter your Email" required/>
+                    <br /><br />
+                    <input type="password" name="password" placeholder="Enter your Password" required/>
+                    <label style="display:flex; justify-content:flex-start; align-items:center; margin: 1em 0 0.5em 0.5em;">
+                        <input type="checkbox" name="remember" style="margin-left: 8px;"/>Remember Me
+                    </label>
+                    <button type="submit" class="loginbutton">Login</button>
+                </form>
+            </div>
+        </div>
+
+        <!--Attendee registration popup form-->
+        <div class="popup-overlay" id="attendee-register">
+            <div class="popup">
+                <span class="close" id="closeattendeeregisterpopup">&times;</span>
+                <h2>Attendee Registration</h2>
+                <form id="attendee-registrationform">
+                    <input type="text" name="name" placeholder="Enter Your Full Name" required/><br/><br/>
+                    <input type="email" name="email" placeholder="Enter your Email" required/>
+                    <br /><br />
+                    <input type="password" name="password" placeholder="Enter your Password" required/>
+                    <button type="submit" class="registerbutton">Register</button>
+                </form>
+            </div>
+        </div>
+
+        <!--Footer image-->
+        <footer class="footer">
+            <img src="/Images/footerimage.png" alt="footerimage" class="footerimage">
+        </footer>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+            
+                //popup elements
+                const login = document.getElementById("login");
+                const loginbuttons = document.querySelectorAll(".cardbutton-organiserlogin");
+                const closeloginbutton = document.getElementById("closeloginpopup");
+            
+                const attendeelogin = document.getElementById("attendee-login");
+                const attendeeregisterpopup = document.getElementById("attendee-register");
+                const attendeeloginbuttons = document.querySelectorAll(".cardbutton-attendeelogin");
+                const attendeeregisterbuttons = document.querySelectorAll(".cardbutton-attendeeregister");
+                const closeattendeelogin = document.getElementById("closeattendeeloginpopup");
+                const closeattendeeregister = document.getElementById("closeattendeeregisterpopup");
+            
+                // ✅ FIXED ORGANISER REGISTER (MAIN FIX)
+                const organiserregisterpopup = document.getElementById("organiser-register");
+                const organiserregisterbuttons = document.querySelectorAll(".cardbutton-organiserregister");
+                const closeorganiserregister = document.getElementById("closeorganiserregisterpopup");
+            
+                //organiser login popup (UNCHANGED)
+                loginbuttons.forEach(btn => {
+                    btn.addEventListener("click", function(e) {
+                        if(btn.textContent=="Login") {
+                            e.preventDefault();
+                            login.style.display="flex";
+                        }
+                    });
+                });
+            
+                // ✅ ORGANISER REGISTER (FIXED)
+                organiserregisterbuttons.forEach(btn => {
+                    btn.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        organiserregisterpopup.style.display = "flex";
+                    });
+                });
+            
+                closeorganiserregister.addEventListener("click", () => {
+                    organiserregisterpopup.style.display = "none";
+                    location.reload();
+                });
+            
+                //attendee login popup (UNCHANGED)
+                attendeeloginbuttons.forEach(btn => {
+                    btn.addEventListener("click", function(e) {
+                        if(btn.textContent=="Login") {
+                            e.preventDefault();
+                            attendeelogin.style.display="flex";
+                        }
+                    });
+                });
+            
+                //attendee register popup (UNCHANGED)
+                attendeeregisterbuttons.forEach(btn => {
+                    btn.addEventListener("click", function(e) {
+                        if(btn.textContent=="Register") {
+                            e.preventDefault();
+                            attendeeregisterpopup.style.display="flex";
+                        }
+                    });
+                });
+            
+                //close button 
+                closeloginbutton.addEventListener("click",()=>{
+                    login.style.display="none";
+                    location.reload();
+                });
+            
+                closeattendeelogin.addEventListener("click",()=>{
+                    attendeelogin.style.display="none";
+                    location.reload();
+                });
+            
+                closeattendeeregister.addEventListener("click",()=>{
+                    attendeeregisterpopup.style.display="none";
+                    location.reload();
+                });
+            
+                //click outside popup
+                window.addEventListener("click",function(e) {
+                    if(e.target==login) {
+                        login.style.display="none";
+                        location.reload();
+                    }
+                    if(e.target==organiserregisterpopup) {
+                        organiserregisterpopup.style.display="none";
+                        location.reload();
+                    }
+                    if(e.target==attendeelogin) {
+                        attendeelogin.style.display="none";
+                        location.reload();
+                    }
+                    if(e.target==attendeeregisterpopup) {
+                        attendeeregisterpopup.style.display="none";
+                        location.reload();
+                    }
+                });
+            
+                //organiser login form (UNCHANGED)
+                document.getElementById("loginform").addEventListener("submit",function(e){
+                    e.preventDefault();
+                    const form=e.target;
+            
+                    fetch("/organiser/login",{
+                        method:"POST",
+                        headers:{"Content-Type":"application/x-www-form-urlencoded"},
+                        body: `email=${encodeURIComponent(form.email.value)}&password=${encodeURIComponent(form.password.value)}`
+                    })
+                    .then(async response =>{
+                        if(response.status==200){
+                            window.location.href= `/organiser`;
+                        } else {
+                            alert("Login error");
+                        }
+                    });
+                });
+            
+                //organiser register form (UNCHANGED)
+                document.getElementById("organiser-registrationform").addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    const form = e.target;
+            
+                    fetch("/organiser/register", {
+                        method: "POST",
+                        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                        body: `name=${encodeURIComponent(form.name.value)}&email=${encodeURIComponent(form.email.value)}&password=${encodeURIComponent(form.password.value)}`
+                    })
+                    .then(async response => {
+                        const text = await response.text();
+            
+                        if(response.status == 409 && text.includes("EMAIL_EXISTS")) {
+                            alert("Email already registered");
+                        }
+                        else if(response.status == 200) {
+                            window.location.href = "/organiser";
+                        }
+                    });
+                });
+            
+                //attendee login (UNCHANGED)
+                document.getElementById("attendee-loginform").addEventListener("submit",function(e){
+                    e.preventDefault();
+                    const form=e.target;
+            
+                    fetch("/attendees/login",{
+                        method:"POST",
+                        headers:{"Content-Type":"application/x-www-form-urlencoded"},
+                        body: `email=${encodeURIComponent(form.email.value)}&password=${encodeURIComponent(form.password.value)}`
+                    })
+                    .then(async response =>{
+                        if(response.status==200){
+                            const data=await response.json();
+                            window.location.href=`/attendee?name=${encodeURIComponent(data.name)}`
+                        } else {
+                            alert("Login error");
+                        }
+                    });
+                });
+            
+                //attendee register (UNCHANGED)
+                document.getElementById("attendee-registrationform").addEventListener("submit",function(e){
+                    e.preventDefault();
+                    const form=e.target;
+            
+                    fetch("/attendees/register",{
+                        method:"POST",
+                        headers:{"Content-Type":"application/x-www-form-urlencoded"},
+                        body: `name=${encodeURIComponent(form.name.value)}&email=${encodeURIComponent(form.email.value)}&password=${encodeURIComponent(form.password.value)}`
+                    })
+                    .then(async response =>{
+                        const text=await response.text();
+                        if(response.status==409){
+                            alert("Email exists");
+                        } else if(response.status==200){
+                            const data=JSON.parse(text);
+                            window.location.href = "/attendee?name=" + encodeURIComponent(data.name);
+                        }
+                    });
+                });
+            
+            });
+            </script>
+    </body>  
+</html>

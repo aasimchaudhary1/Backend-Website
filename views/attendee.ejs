@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--meta tags for responsive designing-->
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!--css file-->
+        <link rel="stylesheet"  type="text/css" href="/main.css" />
+
+        <!--link to include icons-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        
+        <!--Page Titel-->
+        <title>Attendee Dashboard</title>
+</head>
+<body>
+
+    <!--Header with site name and navigation link of main page-->
+    <header class="header">
+        <!--Dynamically loaded site name-->
+        <h1><%=siteName%></h1>
+        <!--Heading-->
+        <h1>Attendee Home Page</h1>
+        <!--link to main page-->
+        <nav class="headerlink">
+            <a href="/" class="mainlink">Main Page</a>
+        </nav>
+    </header>
+
+    <!--Top bar with site name and description-->
+    <div class="attendeetopbar">
+        <!--Dynamically displaying attendee name-->
+        <p>Hi, <%=name%>, welcome to</p>
+        <!--Displaying sitename-->
+        <h1><%= siteName%></h1>
+        <!--Site description -->
+        <p class="description"><%= siteDescription%></p>
+    </div>
+
+    <!--Container for event list-->
+    <div class="eventcontainers">
+        <h2 class="headingsection">Check our upcoming events </h2>
+
+        <!--Grid layout for events-->
+        <div class="eventgrid">
+            <% if(events.length==0){ %>
+                <!--Message if no event is available--> 
+                <p>No upcoming events</p>
+            <% } else{ %>
+                <% events.forEach(event=> { %>
+                    <!--Displaying event card-->
+                    <a href="/event/<%=event.id%>"class="eventcard">
+                        <div class="eventheader">
+                            <!--event title-->
+                            <h3><%=event.title%></h3>
+                            
+                            <!--event date display-->
+                            <% if(event.eventdate) { %>                          
+                                <p class="eventdate">Event Date:<%=event.eventdate.slice(0,10)%></p>
+                            <% } else 
+                            {%>
+                                <p class="eventdate">No date set</p>
+                            <%}%>
+                        </div>
+
+                        <!--Displaying event description-->
+                        <p class="eventdescription"><%=event.description%></p>
+
+                        <!--Ticket information section-->
+                        <div class="ticketinfo">
+                            <div>
+                                <strong>Full Price</strong>
+                                <p>$<%=event.price_amount%></p>
+                                <span class="pricecount"><%=event.price_count%> Tickets left</span>
+                            </div>
+                            <div>
+                                <strong>Concession Price:</strong>
+                                <p>$<%=event.concession_amount%></p>
+                                <span class="concessioncount"><%=event.concession_count%> Tickets left</span>
+                            </div>
+                        </div>
+                    </a>
+              <% })%>
+            <%}%>
+        </div>
+    </div>
+</body>
+</html>

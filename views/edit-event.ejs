@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Meta tag for responsive design-->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+
+        <!--css file-->
+        <link rel="stylesheet" href="/main.css" />
+
+        <!--page title-->
+        <title>Edit Event</title>
+    </head>
+    <body>
+        
+        <!--Page header with heading-->
+        <header class="header">
+            <h1>Edit Event</h1>
+        </header>
+
+        <!--Container for the event edit fomr-->
+        <div class="container">
+
+            <!--Displaying the event creation form-->
+            <p class="creationdate">Created: <%= new Date(event.creationdate).toLocaleString('en-GB',{
+                weekday:undefined,
+                year:'numeric',
+                month:'long',
+                day:'numeric',
+                hour:'numeric',
+                minute:'2-digit',
+                hour12:true
+                })%>
+            </p>
+
+            <!--Form to edit or create a event-->
+            <form action="/organiser/edit-event/<%= event.id %>" method="POST">
+
+                <!--Input field for the event title-->
+                <label for="title">Event Title</label>
+                <input type="text" id="title" name="title" value="<%= event.title || '' %>" required/>
+
+                <!--Input field for the event description-->
+                <label for="description">Event Description</label>
+                <textarea id="description" name="description" rows="5" required><%= event.description || ''%></textarea>
+
+                <!--input field for the event date-->
+                <label for="eventdate">Event Date</label>
+                <input type="date" name="eventdate" id="eventdate" value="<%= event.eventdate ? event.eventdate.slice(0,10):''%>">
+
+                <!--Ticket pricing and availability section-->
+                <div class="tickets">
+                    <div class="ticketsbox">
+                        <!--Full price tickets-->
+                        <h3>Full Price Tickets</h3>
+
+                        <label for="price-count">Number of Tickets</label>
+                        <input type="number" id="price-count" name="price_count" value="<%= event.price_count || 0%>" min="0" required/>
+
+                        <label for="price-amount">Price per Ticket ($)</label>
+                        <input type="number" step="1" id="price-amount" name="price_amount" value="<%= event.price_amount || 0%>" min="0" required/>
+                    </div>
+                    <!--Concession price tickets-->
+                    <div class="ticketsbox">
+                        <h3>Concession Tickets</h3>
+
+                        <label for="concession-count">Number of Tickets</label>
+                        <input type="number"  id="concession-count" name="concession_count" value="<%= event.concession_count || 0%>" min="0" required/>
+
+                        <label for="concession-amount">Price per Ticket ($)</label>
+                        <input type="number" step="1"    id="concession-amount" name="concession_amount" value="<%= event.concession_amount || 0%>" min="0" required/>
+                    </div>
+                </div>
+
+                <!--button for saving the changes and back link to go back to organiser dashboard-->
+                <div class="actions">
+                    <a href="/organiser">Back</a>
+                    <button type="submit">Save Changes</button>
+                </div>
+            </form>
+        </div>
+
+        <!--Script for displaying the alert after successful changes-->
+        <% if(saved) {%>
+            <script>
+            window.onload=function()
+            {
+                alert("Settings saved successfully!");
+                window.location.href="/organiser";
+            }
+            </script>
+        <%}%>
+    </body>
+</html>

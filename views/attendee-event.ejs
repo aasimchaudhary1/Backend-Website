@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Meta tags for responsive designing-->
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+            <!--Dynamically setting the page title using event title-->
+            <title><%= event.title %> | Event Details</title>
+            
+            <!--Link to css file-->
+            <link rel="stylesheet" href="/main.css">
+
+            <!--Link to include icons-->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+            <!--Page title-->
+            <title>Attendee Event Page</title>
+    </head>
+    <body>
+        <!--Site header carrying site name-->
+        <header class="header">
+            <h1><%=siteName%></h1>
+        </header>
+
+        <!--Container for event details-->
+        <div class="eventcontainer">
+            <!--event title-->
+            <h2><%=event.title%></h2>
+
+            <!--Displaying plication event date-->
+            <p class="published">Published on <%=new Date(event.publisheddate).toLocaleString()%></p>
+
+            <!--Displaying event description-->
+            <div class="eventdescription">
+                <h4>Description</h4>
+                <p><%=event.description%></p>
+            </div>
+
+            <!--Ticket information section for both ticket types-->
+            <div class="ticketinfo">
+                <!--Displaying Full Ticket Price display-->
+                <div class="ticketbox fullprice">
+                    <h5>Full Price Ticket</h5>
+                    <p class="price">$<%= event.price_amount%></p>
+                    <span class="availability"><%=event.price_count %> available</span>
+                </div>
+
+                <!--Displaying Concession Ticket Price-->
+                <div class="ticketbox concession">
+                    <h5>Concession Tickets</h5>
+                    <p class="price">$<%=event.concession_amount%></p>
+                    <span class="availability"><%= event.concession_count%> available</span>
+                </div>
+            </div>
+
+            <!--Attendees Event Booking form-->
+            <form class="bookingform" action="/attendee/book" method="POST">
+                <!--Taking input from the attendees for their name-->
+                <label>Name</label>
+                <input type="text" name="name" placeholder="Enter your name" required>
+
+                 <!--Taking input from the attendees for their email-->
+                <label>Email</label>
+                <input type="email" name="email" placeholder="Enter your email" required>
+
+                <!--Ticket selection section-->
+                <div class="ticketselect">
+                    <!--Full price ticket count input-->
+                    <div>
+                        <input type="hidden" name="event_id" value="<%=event.id%>">
+                        <label>Full Price Tickets ($<%=event.price_amount%>each)</label>
+                        <input type="number" name="full_count" id="fulltickets" min="0" value="0">
+
+                    </div>
+
+                    <!--Concession Ticket count input-->
+                    <div>
+                        <label>Concession Tickets ($<%=event.concession_amount%>each)</label>
+                        <input type="number" name="concession_count" id="concessiontickets" min="0" value="0">
+                    </div>
+                </div>
+
+                <!--Form footer containing total price and back button-->
+                <div class="formfooter">
+                    <!--Displaying calculated total price-->
+                    <div class="totalprice">
+                        Total Price:<strong>$0.00</strong>
+                    </div>
+
+                    <% if(!shared){ %>
+                        <!--Book ticket button will be shown if the attendee is visiting the evnt page if the organiser visit the attendee event page the button will be hidden-->
+                        <button type="submit">Book Tickets</button>
+                        <!--Back to attendee home page link-->
+                        <a href="/attendee" class="back-link"><i class="fas fa-arrow-left">Back</i></a>
+                    <% }else{ %>
+                        <!--Back link to organiser home page-->
+                         <a href="/organiser" class="back-link"><i class="fas fa-arrow-left">Back</i></a>
+                    <% } %>
+                </div>
+            </form>
+        </div>
+
+        <!--If successfully booking is done the alert will be shown-->
+      <% if(booked) { %>
+            <script>
+                window.onload=function()
+                {
+                    alert("Booking successful!");
+                    window.location.href="/attendee";
+                }
+            </script>
+      <% } %>
+
+      <!--script to dynamically update the total price-->
+      <script>  
+            //input elements and total price display          
+            const fullprice=document.getElementById('fulltickets');
+            const concessionprice=document.getElementById('concessiontickets');
+            const totalprice=document.querySelector('.totalprice strong');
+
+            //getting ticket prices from server-rendered variables
+            const fullPrice=parseFloat("<%=event.price_amount %>");
+            const concessionPrice=parseFloat("<%=event.concession_amount%>");
+            
+            //function to update total price 
+            function updateTotal()
+            {
+                const fullcount=parseInt(fullprice.value)||0;
+                const concessioncount=parseInt(concessionprice.value)||0;
+                const total=(fullcount*fullPrice)+(concessioncount*concessionPrice);
+                totalprice.textContent=`$${total.toFixed(2)}`;
+            }
+
+            //Event listener to update total when input changes
+            fullprice.addEventListener('input',updateTotal);
+            concessionprice.addEventListener('input',updateTotal);
+        
+      </script>
+  </body>
+</html>
