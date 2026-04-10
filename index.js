@@ -3,26 +3,30 @@
 * Main app entry point
 */
 
-
-
 const express = require('express');
 const app = express();
-const port = 3002;
+
+// ✅ IMPORTANT: dynamic port (REQUIRED for Render)
+const PORT = process.env.PORT || 3002;
 
 const session = require('express-session');
-var bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
+const path = require("path");
+
+// ================= MIDDLEWARE =================
 
 // ✅ Body parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
+// ✅ Static files (FIXED)
+app.use(express.static("public"));
+
 // ✅ View engine
 app.set('view engine', 'ejs');
 
-// ✅ Static files
-app.use(express.static(__dirname + '/public'));
+// ================= SESSION =================
 
-// ✅ Session
 app.use(session({
     secret: 'your-session-secret',
     resave: false,
@@ -30,11 +34,15 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-// ✅ SQLite setup
+// ================= DATABASE =================
+
+// ✅ FIXED: safe path for Render
 const sqlite3 = require('sqlite3').verbose();
-global.db = new sqlite3.Database('./database.db', function(err){
+const dbPath = path.join(__dirname, "database.db");
+
+global.db = new sqlite3.Database(dbPath, function(err){
     if(err){
-        console.error(err);
+        console.error("Database error:", err);
         process.exit(1);
     } else {
         console.log("Database connected");
@@ -42,7 +50,9 @@ global.db = new sqlite3.Database('./database.db', function(err){
     }
 });
 
-// ✅ Middleware for site name + description
+// ================= GLOBAL DATA =================
+
+// ✅ TEMP SAFE VERSION (prevents crash if DB fails)
 app.use((req, res, next) => {
     db.get('SELECT site_name, description FROM site_settings LIMIT 1', (err, row) => {
         if(err || !row) {
@@ -56,13 +66,12 @@ app.use((req, res, next) => {
     });
 });
 
+// ================= ROUTES =================
+
 // ✅ Main page
 app.get('/', (req, res) => {
     res.render('main-page');
 });
-
-
-// ================= ROUTES =================
 
 // ✅ Organiser routes
 const organisersRoutes = require('./routes/organiser');
@@ -72,10 +81,9 @@ app.use('/', organisersRoutes);
 const attendeeRoutes = require('./routes/attendees');
 app.use('/', attendeeRoutes);
 
-
 // ================= START SERVER =================
 
-// ✅ IMPORTANT: start server LAST
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+// ✅ MUST use PORT (not fixed number)
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
 });
