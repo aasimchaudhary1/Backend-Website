@@ -6,12 +6,13 @@
 const express = require('express');
 const app = express();
 
-// ✅ IMPORTANT: dynamic port (REQUIRED for Render)
+// ✅ REQUIRED for Render
 const PORT = process.env.PORT || 3002;
 
 const session = require('express-session');
 const bodyParser = require("body-parser");
 const path = require("path");
+const fs = require("fs");
 
 // ================= MIDDLEWARE =================
 
@@ -19,7 +20,7 @@ const path = require("path");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
-// ✅ Static files (FIXED)
+// ✅ Static files
 app.use(express.static("public"));
 
 // ✅ View engine
@@ -36,7 +37,6 @@ app.use(session({
 
 // ================= DATABASE =================
 
-// ✅ FIXED: safe path for Render
 const sqlite3 = require('sqlite3').verbose();
 const dbPath = path.join(__dirname, "database.db");
 
@@ -45,14 +45,32 @@ global.db = new sqlite3.Database(dbPath, function(err){
         console.error("Database error:", err);
         process.exit(1);
     } else {
-        console.log("Database connected");
+        console.log("✅ Database connected");
+
+        // 🔥 VERY IMPORTANT: Run SQL file to create tables
+        const sqlFile = path.join(__dirname, "database.sql");
+
+        if (fs.existsSync(sqlFile)) {
+            const initSql = fs.readFileSync(sqlFile, "utf-8");
+
+            db.exec(initSql, (err) => {
+                if (err) {
+                    console.error("❌ Error running SQL:", err);
+                } else {
+                    console.log("✅ Database initialized (tables created)");
+                }
+            });
+        } else {
+            console.log("⚠️ database.sql file not found");
+        }
+
         global.db.run("PRAGMA foreign_keys=ON");
     }
 });
 
 // ================= GLOBAL DATA =================
 
-// ✅ TEMP SAFE VERSION (prevents crash if DB fails)
+// ✅ Prevent crash if DB fails
 app.use((req, res, next) => {
     db.get('SELECT site_name, description FROM site_settings LIMIT 1', (err, row) => {
         if(err || !row) {
@@ -83,7 +101,7 @@ app.use('/', attendeeRoutes);
 
 // ================= START SERVER =================
 
-// ✅ MUST use PORT (not fixed number)
+// ✅ Start server
 app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
 });
