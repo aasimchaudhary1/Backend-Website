@@ -48,7 +48,7 @@ global.db = new sqlite3.Database(dbPath, function(err){
         console.log("✅ Database connected");
 
         // 🔥 VERY IMPORTANT: Run SQL file to create tables
-        const sqlFile = path.join(__dirname, "database.sql");
+        const sqlFile = path.join(__dirname, "db_schema.sql");
 
         if (fs.existsSync(sqlFile)) {
             const initSql = fs.readFileSync(sqlFile, "utf-8");
