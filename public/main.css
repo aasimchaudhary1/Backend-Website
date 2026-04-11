@@ -1,32 +1,41 @@
 /* Define styles */
 /*header*/
+* {
+    box-sizing: border-box;
+}
 body
 {
+    overflow-x: hidden;
     margin: 0;
     padding: 0;
     font-family: sans-serif;
     background: linear-gradient(to right, #bce8ed, #d9f3f6,#acecf2, #d9f3f6,#60abb9);
 }
-.header
-{
-    display:flex;
-    justify-content: space-between;
+.header {
+    display: flex;
     align-items: center;
-    background: linear-gradient(to right,#93d1d8,#346b73, #61a9ac, #1a5c64, #c0f2f8);    
-    padding: 0.5em 1em;
-    height: 100px;
+    justify-content: space-between;
+    background: linear-gradient(to right,#93d1d8,#346b73,#61a9ac,#1a5c64,#c0f2f8);
+    padding: 10px 20px;
     position: relative;
+    flex-wrap: wrap; /* ✅ IMPORTANT */
 }
-.header h1
-{
- 
+
+.page-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     margin: 0;
     color: white;
-    font-size: 2.5rem;
-    font-family: 'Great Vibes',cursive;
-    white-space: nowrap;
-    z-index: 1;
-    padding-right: 450px;
+    font-size: 2.2rem;
+    font-family: 'Great Vibes', cursive;
+    white-space: nowrap; /* prevents breaking */
+}
+
+.logo {
+    font-size: 3rem;
+    color: white;
+    font-family: 'Great Vibes', cursive;
 }
 .topbar
 {
@@ -221,28 +230,36 @@ body
 {
     background-color: #60abb9;
 }
-.dashboard-top
-{
- display: grid;
-    grid-template-columns: 440px 1fr;
-    grid-template-rows: auto auto;
-    gap:40px 60px;
+.dashboard-top {
+    display: grid;
+    grid-template-columns: minmax(300px, 420px) 1fr;
+    grid-template-rows: 1fr auto;
+    gap: 20px;
     padding: 40px 20px;
-
+    align-items: stretch; /* ✅ KEY */
 }
+
 .site-card
 {
     grid-column: 1;
     grid-row: 1;
     background-color: white;
     border-radius: 20px;
-    padding: 24px;
+    padding: 16px;
+   
     box-shadow: 0 4px 40px rgba(0,0,0,0.5);
-    width: 420px;
+    width:100%;
+   
     font-family: 'Segoe UI',sans-serif;
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+.site-card,
+.draft {
+    height: 100%;
+    align-self: stretch;
 }
 .site-card-header
 {
@@ -291,11 +308,12 @@ body
 .settings-form
 {
     max-width: 600px;
-    margin: 120px auto;
+    margin: 70px auto;
     background-color: white;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
+
 }
 label
 {
@@ -348,13 +366,14 @@ a:hover
 .publishedevent
 {
     grid-row: 2;
-    grid-column: 1;
+    grid-column: 1/-1;
     background: white;
     padding:20px;
     border-radius: 20px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-    width: 1600px;
-    height: 300px;
+    width: 100%;
+    max-width: 100%;
+    height: 350px;
     overflow-y: scroll;
 }
 .events
@@ -366,20 +385,26 @@ a:hover
 
 .draft {
     grid-column: 2;
-    grid-row: 1 / span 2;
+    grid-row: 1 ;
+    justify-self: stretch;
     background-color: white;
-    padding: 24px;
+    padding: 16px;
     border-radius: 20px;
     box-shadow: 0 4px 40px rgba(0,0,0,0.5);
-    width: 1100px;
-    height: 210px;
+    width: 100%;
+    max-width: 100%;
+    max-height: 300px;
     flex-direction: column;
     overflow-y: auto;
+}
+.site-card,
+.draft {
+    height: 100%;
 }
 .container
 {
     max-width: 900px;
-    margin: 60px auto;
+    margin: 30px auto;
     background: white;
     padding:30px 40px;
     border-radius: 8px;
@@ -484,18 +509,23 @@ input[type=date]
     width: 100%;
     border-collapse: collapse;
     margin-top: 1rem;
+    
 }
-.draftevents th,.draftevents td
-{
+.draftevents tr {
+    border-bottom: 1px solid #989595; /* ✅ LINE ON ROW */
+}
+
+.draftevents td,
+.draftevents th {
     padding: 1em;
     text-align: left;
-    border-bottom: 1px solid #989595;
-    vertical-align: middle;
+    vertical-align: top;
+    border: none; /* ❌ REMOVE CELL BORDERS */
 }
 .draftevents td:last-child
 {
     white-space: nowrap;
-    vertical-align: center;
+    vertical-align: middle;
 }
 .draftevents th
 {
@@ -511,8 +541,9 @@ input[type=date]
     text-overflow: ellipsis;
     color: #777;
     display: block;
-    margin-top: 0.5rem;
-    margin-bottom: -1rem;
+    margin-top: 10px;
+    margin-bottom: 0;
+    line-height: 1.4;
 }
 .draftevents td a
 {
@@ -550,8 +581,10 @@ input[type=date]
     display: flex;
     flex-direction: column;
     justify-content: center;
-    max-width: 250px;
+    width: 100%;
+    
 }
+
 .eventtitle
 {
     font-weight: bold;
@@ -571,8 +604,8 @@ input[type=date]
 {
     width:100%;
     border-collapse: collapse;
-    table-layout: fixed;
-    min-width: 1500px;
+    table-layout: auto;
+    
 }
 .publishedevents th
 {
@@ -691,7 +724,7 @@ td:last-child
     background-color: rgba(213,250,245,0.5);
     border: 2px solid black;
     padding: 10rem;
-    padding-bottom: 250px;
+    padding-bottom: 100px;
     border-radius: 20px;
     margin: 2rem auto;
     width: 80%;
@@ -708,23 +741,22 @@ td:last-child
     margin-left: -130px;
     
 }
-.eventgrid
-{
-   display: grid; 
-   grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
-    gap:6.5rem;
+.eventgrid {
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 6.5rem;
     padding: 1.5rem;
     margin-top: -1rem;
-    justify-items: start;
-    margin-left: -150px;
-  
-}
+ 
+    justify-content: center;   /* ✅ CENTER GRID */
+    justify-items: center;     /* ✅ CENTER CARDS */
+ }
 .eventcard
 {
     background-color: white;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    width: 150%;
+    width: 100%;
     max-width: 360px;
     padding: 25px;
     text-decoration: none;
@@ -762,21 +794,7 @@ td:last-child
     font-size: 0.9rem;
     color: #555;
 }
-.ticketinfo
-{
-    display: flex;
-    justify-content: center;
-    margin: 1rem 0;
-}
-.ticketinfo div
-{
-    text-align: center;
-}
-.ticketinfo p
-{
-    margin:1rem 0;
-    font-weight: bold;
-}
+
 .pricecount,.concessioncount
 {
     font-size: 0.8rem;
@@ -787,36 +805,27 @@ td:last-child
     padding: 7px;
     
 }
-.headerlink
-{
+/* HEADER RIGHT BUTTON */
+.headerlink {
     margin-left: auto;
 }
-.headerlink a.mainlink
-{
-    color:#045a59;
-    padding: 10px 12px;
-    text-decoration: none;
+
+.headerlink a.mainlink {
     background-color: white;
-    border-radius: 15px;
-    font-size: 1.5rem;
-    transition: background-color 0.3s ;
-    margin-bottom: 15px;
-}
-.headerlink a.mainlink:hover
-{
-    background-color: #045a59;
-    color: #f2eded;
-}
-.eventcontainer
-{
-    max-width: 800px;
-    margin: 1em auto;
-    padding: 1em 3em;
-    background: white;
+    color: #045a59;
+    padding: 8px 14px;
     border-radius: 12px;
-    box-shadow: 0 10 20px rgba(0,0,0,0.5);
-    font-family:'Segoe UI',sans-serif ;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
+
+.headerlink a.mainlink:hover {
+    background-color: #045a59;
+    color: white;
+}
+
 .eventcontainer h2
 {
     font-size: 1.8em;
@@ -837,10 +846,13 @@ td:last-child
 {
     display: flex;
     justify-content: center;
-    gap:2em;
+    gap:1em;
     flex-wrap: wrap;
-    margin: 2em 0;
+    margin: em 0;
     text-align: center;
+}
+.eventcontainer {
+    padding: 0 40px;   /* ✅ left + right spacing */
 }
 .ticketbox
 {
@@ -883,9 +895,11 @@ td:last-child
 .bookingform input[type="text"],.bookingform input[type="email"],
 .bookingform input[type="number"]
 {
-    width:100%;
+    width:90%;
     padding:0.7em;
     margin-bottom: 1em;
+    margin: 0 auto;
+    display: block;
     border: 1px solid #ccc;
     border-radius: 6px;
     
@@ -952,3 +966,406 @@ td:last-child
     border-bottom: 2px solid #1a5c64;
     padding-bottom: 5px;
 }
+.draftevents tr {
+    display: table-row;
+    height: 100%;
+}
+
+  
+ 
+
+
+.eventdescription
+{
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.4;
+    word-break: break-word;
+    white-space: normal;
+}
+.publishedevents table
+{
+    width:100%;
+    border-collapse: collapse;
+    table-layout: auto;
+    
+}
+.publishedevents th
+{
+    background-color: #6dc5bb;
+    color: #0a0a0a;
+    font-weight: bold;
+    padding: 16px 12px;
+    text-align: left;
+    font-size: 1rem;
+    border-bottom: 2px solid #333;
+}
+.publishedevents td
+{
+    padding: 14px 12px;
+    border-bottom: 1px solid #ccc;
+    vertical-align: top;
+    font-size: 0.95rem;
+}
+.publishedevents td small
+{
+    display: block;
+    color: #777;
+    margin-top: 4px;
+}
+.publishedevents td:last-child
+{
+    white-space: nowrap;
+}
+.publishedevents td a
+{
+    color: black;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-right: 5px;
+    transition: color 0.2s ease;
+}
+td:last-child
+{
+    padding-right: 12px;
+}
+.publishedevents td a:hover
+{
+    color: #1a5c64;
+}
+.btn.editbutton
+{
+    background-color: #bef5ee;
+    color: rgb(10, 5, 5);
+    border: 1px solid black;
+    font-weight: bold;
+}
+.btn.editbutton:hover
+{
+    color:#05695b;
+}
+.btn.publishbutton
+{
+    background-color: #b1fac0;
+    color: rgb(19, 11, 11);
+    border: 1px solid black;
+    font-weight: bold;
+    
+}
+.btn.publishbutton:hover
+{
+    color: #2e8b3f;
+}
+.btn.deletebutton
+{
+    background-color: #f6b5b5;
+    color: #120607;
+    font-weight: bold;
+    border: 1px solid black;
+}
+.btn.deletebutton:hover
+{
+    color:#f41d2f;
+}
+.btn.sharebutton
+{
+    background-color: #b5e8f6;
+    color: #120607;
+    font-weight: bold;
+    border: 1px solid black;
+}
+.publishedeventsactions
+{
+    display: flex;
+    gap: 3px;
+    flex-wrap: wrap;
+    margin-top: -15px;
+}
+.attendeetopbar
+{
+    color: #284f4f;
+    margin-left: 10px;
+}
+
+.tablecontainer
+{
+    overflow-x:auto;
+    max-width: 100%;
+}
+.noevents
+{
+    text-align: center;
+    padding: 60px 0;
+    font-size: 1.2rem;
+    color: #555;
+}
+
+
+
+
+.eventcard:hover
+{
+    transform:translateY(-5px);
+}
+.eventheader
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.eventheader h3
+{
+    margin:0;
+}
+.publisheddate
+{
+    background-color: #e6f4ea;
+    color: #2e7a7d;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+}
+.header h1
+{
+    color: white;
+}
+.eventdescription{
+    margin:1px 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+.ticketinfo
+{
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
+.ticketinfo div
+{
+    text-align: center;
+}
+.ticketinfo p
+{
+    margin:1rem 0;
+    font-weight: bold;
+}
+.pricecount,.concessioncount
+{
+    font-size: 0.8rem;
+    color: #070606;;
+    background-color: #c0f8f8;
+    border-radius: 5px;
+    border: 1px solid  #080f0f;
+    padding: 7px;
+    
+}
+/* HEADER RIGHT BUTTON */
+.headerlink {
+    margin-left: auto;
+}
+
+/* ================= MOBILE (SMALL DEVICES) ================= */
+@media (max-width: 768px) {
+   .header {
+        flex-direction: row; /* 🔥 KEEP ROW */
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap; /* 🔥 PREVENT BREAK */
+        padding: 10px;
+    }
+
+    /* Logo */
+    .logo {
+        font-size: 1.2rem;
+        flex: 1;
+        text-align: left;
+    }
+
+    /* Title (CENTER) */
+    .page-title {
+        position: static;
+        transform: none;
+        font-size: 1.2rem;
+        text-align: center;
+        flex: 2;
+        white-space: nowrap; /* 🔥 KEEP IN ONE LINE */
+    }
+
+    /* Button (RIGHT) */
+    .headerlink {
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .headerlink a {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+    }
+    .topbar {
+        display: flex;
+        justify-content: space-between; /* LEFT + RIGHT */
+        align-items: center;
+        padding: 20px;
+    }
+  /* LEFT TEXT */
+.welcome-message {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2rem;
+    margin: 0;
+    text-align: left; /* 🔥 FORCE LEFT */
+}
+
+.eventcontainer {
+    padding: 0 20px;
+}
+   /* RIGHT BUTTON */
+.createeventbutton {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.createeventbutton img {
+    width: 120px;
+}
+  
+    /* DASHBOARD FIX */
+    .dashboard-top {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+  
+    .site-card,
+    .draft,
+    .publishedevent {
+      width: 100% !important;
+    }
+    .site-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+    /* EVENT GRID FIX */
+  
+  
+  
+    .eventcard {
+      width: 100%;
+    }
+  
+    .headingsection {
+     
+      text-align: center;
+      margin-top: -150px;
+    }
+  
+    /* FORM FIX */
+    .ticketselect {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+    .formfooter {
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
+  
+    /* TABLE FIX */
+    .tablecontainer {
+      overflow-x: auto;
+    }
+  
+    table {
+      width: 100%;
+    }
+
+    .draftevents td:last-child
+{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    padding-left: 0;   /* 🔥 PUSH LEFT (adjust 10→15 if needed) */
+}
+.draftevents td:last-child .btn {
+    margin-left: -15px;   /* 🔥 clean shift left */
+}
+.container {
+    max-width: 95% !important;
+    margin: 40px auto !important;
+    padding: 15px !important;
+}
+
+
+.eventgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 360px));
+    gap: 2rem;
+    padding: 1.5rem;
+    justify-content: center;   /* ✅ CENTER GRID */
+    justify-items: center;     /* ✅ CENTER CARDS */
+    margin: 0;                 /* ❌ REMOVE negative margin */
+    
+}
+  }
+  @media (max-width: 964px)
+  {
+  .container {
+    max-width: 90% !important;
+    margin: 30px auto !important;
+    padding: 15px !important;
+}
+.settings-form
+{
+    max-width: 400px;
+    margin: 80px auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+.eventgrid {
+    justify-content: center !important;
+    justify-items: center !important;
+    margin-left: 0 !important;
+  }
+
+  .eventcard {
+    width: 100% !important;
+    max-width: 360px;
+    
+  }
+  .eventcontainers
+  {
+      padding-top: 200px;
+      justify-content: center;
+  }
+  }
+
+
+
+  @media (max-width: 600px) {
+    .container,
+    .settings-form {
+      max-width: 95%;
+      margin: 70px auto;
+      padding: 15px;
+    }
+   
+    .eventcard {
+      
+        margin-left: -25px;
+      }
+    .headingsection
+      {
+       margin-left: -40px;
+
+      }
+  }
+  
