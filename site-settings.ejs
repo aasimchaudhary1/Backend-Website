@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--meta page for responsiveness-->
+    <title>Site Settings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+    <!--header with heading-->
+    <header class="header">
+        <h1>Site Settings</h1>
+    </header>
+
+    <!--form to set sitename,description and orgnaiser name-->
+    <div class="settings-form">
+        <form action="/organiser/site-settings" method="POST">
+            <label  for="site_name">Site Name:</label><br>
+            <input type="text" id="site_name" name="site_name" value="<%= siteName %>" required><br><br>
+
+            <label for="site_description">Description:</label><br>
+            <textarea id="site_description" name="site_description" required><%= siteDescription %></textarea><br><br>
+ 
+            <label for="organiser_name">Organiser Name:</label><br>
+            <input type="text" id="organiser_name" name="organiser_name" value="<%= organiserName %>" required>
+
+
+            <button type="submit">Save Changes</button>
+        </form>
+        <br>
+        <a href="/organiser">← Back to Dashboard</a>
+    </div>
+
+    <!--alert after successful changes-->
+    <% if(saved) {%>
+        <script>
+         window.onload=function()
+         {
+             alert("Settings saved successfully!");
+             window.location.href="/organiser";
+         }
+        </script>
+     <%}%>
+</body>
+</html>
